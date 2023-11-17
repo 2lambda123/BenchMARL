@@ -20,6 +20,7 @@ class VmasTask(Task):
     NAVIGATION = None
     TRANSPORT = None
     WHEEL = None
+    DISPERSION = None
 
     def get_env_fun(
         self,

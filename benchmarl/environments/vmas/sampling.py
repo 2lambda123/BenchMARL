@@ -14,3 +14,5 @@ class TaskConfig:
     shared_rew: bool = MISSING
     n_gaussians: int = MISSING
     lidar_range: float = MISSING
+    cov: float = MISSING
+    collisions: bool = MISSING

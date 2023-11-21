@@ -435,13 +435,11 @@ class Masac(Algorithm):
 @dataclass
 class MasacConfig(AlgorithmConfig):
     share_param_critic: bool = MISSING
-
     num_qvalue_nets: int = MISSING
     loss_function: str = MISSING
     delay_qvalue: bool = MISSING
     target_entropy: Union[float, str] = MISSING
     discrete_target_entropy_weight: float = MISSING
-
     alpha_init: float = MISSING
     min_alpha: Optional[float] = MISSING
     max_alpha: Optional[float] = MISSING

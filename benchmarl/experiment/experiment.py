@@ -674,7 +674,7 @@ class Experiment(CallbackNotifier):
     @torch.no_grad()
     def _evaluation_loop(self):
         evaluation_start = time.time()
-        with set_exploration_type(ExplorationType.MODE):
+        with set_exploration_type(ExplorationType.RANDOM):
             if self.task.has_render(self.test_env) and self.config.render:
                 video_frames = []
 

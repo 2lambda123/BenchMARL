@@ -33,6 +33,7 @@ from .pettingzoo.simple_world_comm import TaskConfig as SimpleWorldComm
 from .pettingzoo.waterworld import TaskConfig as WaterworldConfig
 from .vmas.balance import TaskConfig as BalanceConfig
 from .vmas.dispersion import TaskConfig as DispersionConfig
+from .vmas.give_way import TaskConfig as GiveWayConfig
 from .vmas.navigation import TaskConfig as NavigationConfig
 from .vmas.sampling import TaskConfig as SamplingConfig
 from .vmas.transport import TaskConfig as TransportConfig
@@ -49,6 +50,7 @@ _task_class_registry = {
     "vmas_transport_config": TransportConfig,
     "vmas_wheel_config": WheelConfig,
     "vmas_dispersion_config": DispersionConfig,
+    "vmas_give_way_config": GiveWayConfig,
     "pettingzoo_multiwalker_config": MultiwalkerConfig,
     "pettingzoo_waterworld_config": WaterworldConfig,
     "pettingzoo_simple_adversary_config": SimpleAdversaryConfig,

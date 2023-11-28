@@ -1,0 +1,7 @@
+defaults:
+  - _self_
+  - vmas_give_way_config
+
+max_steps: 100
+mirror_passage: False
+observe_rel_pos : True

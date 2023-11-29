@@ -4,4 +4,6 @@ defaults:
 
 max_steps: 100
 mirror_passage: False
-observe_rel_pos : True
+observe_rel_pos: False
+done_on_completion: False
+final_reward: 0.01

@@ -56,7 +56,6 @@ class VmasTask(Task):
 
     def group_map(self, env: EnvBase) -> Dict[str, List[str]]:
         if hasattr(env, "group_map"):
-            print(env.group_map)
             return env.group_map
         return {"agents": [agent.name for agent in env.agents]}
 

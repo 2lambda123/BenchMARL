@@ -30,7 +30,7 @@ from benchmarl.environments import Task
 from benchmarl.experiment.callback import Callback, CallbackNotifier
 from benchmarl.experiment.logger import Logger
 from benchmarl.models.common import ModelConfig
-from benchmarl.utils import _read_yaml_config
+from benchmarl.utils import _read_yaml_config, seed_everything
 
 _has_hydra = importlib.util.find_spec("hydra") is not None
 if _has_hydra:
@@ -335,6 +335,7 @@ class Experiment(CallbackNotifier):
 
     def _setup(self):
         self.config.validate(self.on_policy)
+        seed_everything(self.seed)
         self._set_action_type()
         self._setup_task()
         self._setup_algorithm()
@@ -664,18 +665,26 @@ class Experiment(CallbackNotifier):
             params += param_group["params"]
 
         if self.config.clip_grad_norm and self.config.clip_grad_val is not None:
-            gn = torch.nn.utils.clip_grad_norm_(params, self.config.clip_grad_val)
+            total_norm = torch.nn.utils.clip_grad_norm_(
+                params, self.config.clip_grad_val
+            )
         else:
-            gn = sum(p.grad.pow(2).sum() for p in params if p.grad is not None).sqrt()
+            norm_type = 2.0
+            norms = [
+                torch.linalg.vector_norm(p.grad, norm_type)
+                for p in params
+                if p.grad is not None
+            ]
+            total_norm = torch.linalg.vector_norm(torch.stack(norms), norm_type)
             if self.config.clip_grad_val is not None:
                 torch.nn.utils.clip_grad_value_(params, self.config.clip_grad_val)
 
-        return float(gn)
+        return float(total_norm)
 
     @torch.no_grad()
     def _evaluation_loop(self):
         evaluation_start = time.time()
-        with set_exploration_type(ExplorationType.MODE):
+        with set_exploration_type(ExplorationType.RANDOM):
             if self.task.has_render(self.test_env) and self.config.render:
                 video_frames = []
 

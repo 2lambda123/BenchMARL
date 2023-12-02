@@ -11,7 +11,7 @@ import torch
 from tensordict import TensorDictBase
 from tensordict.nn import TensorDictModule, TensorDictSequential
 from torchrl.data import CompositeSpec, UnboundedContinuousTensorSpec
-from torchrl.modules import AdditiveGaussianWrapper, ProbabilisticActor, TanhDelta
+from torchrl.modules import AdditiveGaussianWrapper, Delta, ProbabilisticActor
 from torchrl.objectives import DDPGLoss, LossModule, ValueEstimators
 
 from benchmarl.algorithms.common import Algorithm, AlgorithmConfig
@@ -119,12 +119,13 @@ class Iddpg(Algorithm):
                 spec=self.action_spec[group, "action"],
                 in_keys=[(group, "param")],
                 out_keys=[(group, "action")],
-                distribution_class=TanhDelta,
-                distribution_kwargs={
-                    "min": self.action_spec[(group, "action")].space.low,
-                    "max": self.action_spec[(group, "action")].space.high,
-                },
+                distribution_class=Delta,
+                # distribution_kwargs={
+                #     "min": self.action_spec[(group, "action")].space.low,
+                #     "max": self.action_spec[(group, "action")].space.high,
+                # },
                 return_log_prob=False,
+                safe=True,
             )
             return policy
         else:
